@@ -1,0 +1,1 @@
+import thefool from "../images/MajorArcana/0_The_Fool.jpg"
