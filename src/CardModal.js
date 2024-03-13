@@ -1,60 +1,42 @@
 import React, { useState } from "react";
-import TarotCard from "./TarotCard";
-import tarotData from "./components/tarot-images.json";
+// import TarotCard from "./TarotCard";
+// import tarotData from "./components/tarot-images.json";
 
-
-const TarotCards = () => {
-  const [selectedCard, setSelectedCard] = useState(null);
-
-  const handleCardClick = (card) => {
-    setSelectedCard(card);
+export default function CardModal() {
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => {
+    setModal(!modal);
   };
-
-  const shuffledTarotCards = useShuffle(tarotData.cards);
-
-  return (
-    <div className="p-4">
-      <h1 className="text-4xl font-bold mb-8">Tarot Cards</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {shuffledTarotCards.map((card) => (
-          <TarotCard
-            key={card.name}
-            card={card}
-            onClick={() => handleCardClick(card)}
-          />
-        ))}
-      </div>
-      {selectedCard && (
-        <Modal onClose={() => setSelectedCard(null)}>
-          <TarotCard card={selectedCard} />
-        </Modal>
-      )}
-    </div>
-  );
-};
-
-const useShuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  if (modal) {
+    document.body.classList.add("overflow-y-hidden");
+  } else {
+    document.body.classList.remove("overflow-y-hidden");
   }
-  return array;
-};
-
-const Modal = ({ children, onClose }) => {
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        {children}
-        <button
-          className="mt-4 py-2 px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-          onClick={onClose}
-        >
-          Close
-        </button>
-      </div>
-    </div>
+    <>
+    {/* Button Onclick */}
+      <button
+        onClick={toggleModal}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Click
+      </button>
+  {/* Modal Output */}
+      {modal && (
+        <div className="w-full h-full m-0 fixed bg-white">
+          <div className="bg-white">
+            <div className="modal-content">
+              <h2>Hello There</h2>
+              <button
+                onClick={toggleModal}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
-};
-
-export default TarotCards;
+}
