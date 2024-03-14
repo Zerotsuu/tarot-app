@@ -6,6 +6,11 @@ import "./App.css";
 import ImageTemplate from "./components/ImageTemplate.js";
 import tarotJson from "./components/tarot-images.json"
 
+import ImageTemplate from "./components/ImageTemplate.js";
+import tarotJson from "./components/tarot-images.json"
+import Description from "./components/Description.js"
+
+
 function App() {
   console.log(tarotJson.cards)
   return (
@@ -46,6 +51,7 @@ function App() {
           {/* <StackedDeck/> */}
           <div className="w-full h-32" />
           {/* <CardGrid /> */}
+
           {/* <CardGridTest />
           <CardModal/> */}
           <CardGrid imageSource={tarot.Death} cardName="The Fool" />
