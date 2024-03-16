@@ -2,9 +2,9 @@ import React from "react";
 import "./output.css";
 import "./App.css";
 
-import thefool from "./images/MajorArcana/0_The_Fool.jpg";
+import thefool from "./images/MajorArcana/The_Fool.jpg";
 
-export default function Stackeddeck() {
+export default function stackedDeck() {
   return (
     <>
       {/* container  start */}
