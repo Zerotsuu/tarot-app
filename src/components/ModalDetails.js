@@ -1,9 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
+import data from "./tarot-images.json";
 
 const Modal = ({ isOpen, onClose, imageSrc }) => {
   if (!isOpen) return null;
 
+  const getDescription = (img) => {
+    const card = data.cards.find((card) => card.img === img);
+
+    if (card) {
+      return card.meanings.light[0]; // You can change this to return any description you want
+    } else {
+      return "Description not found";
+    }
+  };
+
+  // Extract the original file name from the imageSrc prop
+
+  const fileName = imageSrc.match(/\/static\/media\/(.+?)\./)[1];
+
+  // Usage
+  const img = fileName +".jpg";
+
+  const description = getDescription(img);
+  console.log(img)
+console.log(description)
   return (
     <>
       <div
@@ -21,13 +42,15 @@ const Modal = ({ isOpen, onClose, imageSrc }) => {
             </div>
             {/* Images */}
             <img src={imageSrc} alt="Selected Image" className="modal-image" />
-
+            <p className="text-center mt-4 text-white">{description}</p>
             <div className="flex w-full justify-center">
               <button
                 type="button"
                 className="justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                 onClick={onClose}
-              >Close </button>
+              >
+                Close{" "}
+              </button>
             </div>
           </div>
         </div>

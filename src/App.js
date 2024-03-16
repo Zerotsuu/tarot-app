@@ -5,10 +5,11 @@ import "./output.css";
 import "./App.css";
 import ImageTemplate from "./components/ImageTemplate.js";
 import tarotJson from "./components/tarot-images.json"
+// import StackedDeck from "./stackedDeck.js"
 
-import ImageTemplate from "./components/ImageTemplate.js";
-import tarotJson from "./components/tarot-images.json"
-import Description from "./components/Description.js"
+// import ImageTemplate from "./components/ImageTemplate.js";
+// import tarotJson from "./components/tarot-images.json"
+// import Description from "./components/Description.js"
 
 
 function App() {
