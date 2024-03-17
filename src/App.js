@@ -1,34 +1,25 @@
 import React from "react";
-// import CardGrid from "./CardGrid.js";
-// import * as tarot from "./images/index.js";
+import { BrowserRouter , Route, Routes } from "react-router-dom";
 import "./output.css";
 import "./App.css";
-// import ImageTemplate from "./components/ImageTemplate.js";
-import tarotJson from "./components/tarot-images.json"
-import StackedDeck from "./stackedDeck.js"
-import Navbar from "./components/NavBar.js"
-
+// import StackedDeck from "./stackedDeck.js"
+// import Navbar from "./components/NavBar.js"
+import Gallery from "./pages/Gallery"
+import HomePage from "./pages/Homepage.js"
+import Account from "./pages/Account.js"
 
 function App() {
-  console.log(tarotJson.cards)
+  // console.log(tarotJson.cards)
   return (
     <div>
-      <Navbar/>
-      {/* Background */}
-      <div className="bg-gray-50 dark:bg-gray-900 relative overflow-scroll w-screen h-screen">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-          {/* Header Title */}
-
-          <div className="w-full h-32" />
-          <StackedDeck/>
-          <div className="w-full h-32" />
-          
-          {/* <CardGrid imageSource={tarot.Death} cardName="The Fool" /> */}
-          
-
-          
-        </div>
-      </div>
+      
+      <BrowserRouter>
+      <Routes>
+        <Route index element={<HomePage/>}/> {/* 👈 Renders at /app/ */}
+        <Route path="/gallery" element={<Gallery/>}/>
+        <Route path="/account" element={<Account/>}/>
+      </Routes>
+    </BrowserRouter>
     </div>
   );
 }

@@ -2,18 +2,12 @@ import React from "react";
 import "./output.css";
 import "./App.css";
 import ImageTemplate from "./components/ImageTemplate.js";
-// import PropTypes from "prop-types";
-// import { useState } from "react";
-// import Modal from "./components/ModalDetails.js";
 import * as tarot from "./images/index.js";
-// import ShuffleCards from "./components/ShuffleCards.js"
-import { ShuffleCardsUtil as ShuffleCardsUtil } from "./utils/shuffleCardsUtil.js"; // Import the shuffleCards function
+import { ShuffleCardsUtil as ShuffleCardsUtil } from "./utils/shuffleCardsUtil.js";
 import PropTypes from "prop-types";
 
 const CardGrid = ({numCards}) => {
-  // const [shuffledCards, setShuffledCards] = useState([]);
 
- 
     // Shuffle the cards when the component mounts
     const imageElements = Object.values(tarot).map((imagePath, index) => (
       <div key={index}>
@@ -42,29 +36,19 @@ const CardGrid = ({numCards}) => {
           <div className="flex justify-center w-auto">
             <div className="grid grid-cols-3 gap-10 rounded-2xl w-auto ">
               {renderShuffling}
-              {/* {shuffledCards} */}
             </div>
           </div>
         </div>
         {/* end of Grid */}
 
-        {/* <ShuffleCards/> */}
-        {/* <button
-          type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          onClick={shuffleCards}
-        >
-          Submit
-        </button> */}
+       
       </div>
-      {/* end of Container Padding */}
     </>
   );
 };
 
 CardGrid.propTypes = {
   numCards: PropTypes.number.isRequired,
-  
 };
 export default CardGrid;
 

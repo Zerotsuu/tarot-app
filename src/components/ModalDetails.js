@@ -35,7 +35,7 @@ const Modal = ({ isOpen, onClose, imageSrc }) => {
             {/* Header Div */}
             <div className="w-auto text-center">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Your Cards
+                Card
               </h1>
             </div>
             {/* Images */}

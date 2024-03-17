@@ -16,7 +16,7 @@ const TarotCard = (props) => {
     
   return (
     <>
-    <div className="w-80 justify-center bg-white rounded-2xl">
+    <div className="w-80 justify-center bg-white rounded-2xl cursor-pointer">
       <img src={imageSource} className="rounded-2xl" alt={imageSource} onClick={openModal}/>
     </div>
     <Modal
