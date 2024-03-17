@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "./output.css";
 import "./App.css";
 import cardBack from "./images/CardBack.jpeg";
+import CardGrid from "./CardGrid";
 // import shuffleCards from "../src/CardGrid"
 
 export default function stackedDeck() {
   const [clickedImages, setClickedImages] = useState([]);
+  const [checkCards, setCheckCards] = useState(false)
+
   const clickedCard = (index) => {
 
     if (!clickedImages.includes(index)) {
@@ -13,6 +16,15 @@ export default function stackedDeck() {
     }
   
   };
+  console.log(checkCards)
+  const handleCheckCards = () => {
+  
+    const numCards = clickedImages.length;
+    console.log(numCards)
+    setCheckCards(true)
+    
+  };
+
   return (
     <>
       {/* container  start */}
@@ -27,15 +39,10 @@ export default function stackedDeck() {
           </div>
           {/* Images */}
           <div className="flex  justify-between ">
-            {/* <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block"
-              alt="TheFool"
-            /> */}
             {Array.from({ length: 20 }, (_, i) => (
               <div
                 key={i}
-                className={`filter h-80 rounded-2xl flex bg-black cursor-pointer hover:bg-opacity-90 hover:mt-10 ${i !== 0 ? "-ml-52 " : ""} ${clickedImages.includes(i)?"mt-10":""}`}
+                className={`filter h-80 rounded-2xl flex bg-black cursor-pointer  hover:mt-10 ${i !== 0 ? "-ml-52 " : ""} ${clickedImages.includes(i)?"mt-10":""} ${clickedImages.includes(i)?"grayscale":""}`}
               >
                 <img
                   src={cardBack}
@@ -52,14 +59,13 @@ export default function stackedDeck() {
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
-            Submit
+            onClick={handleCheckCards}>
+            Check your cards
           </button>
         </div>
-
-        {/* end of Container Padding */}
+        
       </div>
-      {/* end of Container */}
+      {checkCards && <CardGrid numCards={clickedImages.length}/>}
     </>
   );
 }

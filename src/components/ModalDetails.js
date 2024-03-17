@@ -8,14 +8,13 @@ const Modal = ({ isOpen, onClose, imageSrc }) => {
   const getDescription = (img) => {
     const card = data.cards.find((card) => card.img === img);
     if (card) {
-      return card.meanings.light[0]; // You can change this to return any description you want
+      return card.meanings.light[0]; // change this to return any description you want
     } else {
       return "Description not found";
     }
   };
 
   // Extract the original file name from the imageSrc prop
-
   const fileName = imageSrc.match(/\/static\/media\/(.+?)\./)[1];
 
   // Usage
