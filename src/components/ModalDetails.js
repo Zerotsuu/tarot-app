@@ -7,7 +7,6 @@ const Modal = ({ isOpen, onClose, imageSrc }) => {
 
   const getDescription = (img) => {
     const card = data.cards.find((card) => card.img === img);
-
     if (card) {
       return card.meanings.light[0]; // You can change this to return any description you want
     } else {
@@ -20,11 +19,11 @@ const Modal = ({ isOpen, onClose, imageSrc }) => {
   const fileName = imageSrc.match(/\/static\/media\/(.+?)\./)[1];
 
   // Usage
-  const img = fileName +".jpg";
+  const img = fileName + ".jpg";
 
   const description = getDescription(img);
-  console.log(img)
-console.log(description)
+  console.log(img);
+  console.log(description);
   return (
     <>
       <div
@@ -42,6 +41,7 @@ console.log(description)
             </div>
             {/* Images */}
             <img src={imageSrc} alt="Selected Image" className="modal-image" />
+            {/* description */}
             <p className="text-center mt-4 text-white">{description}</p>
             <div className="flex w-full justify-center">
               <button
