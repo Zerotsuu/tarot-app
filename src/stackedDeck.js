@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import "./output.css";
 import "./App.css";
-
-import thefool from "./images/MajorArcana/The_Fool.jpg";
+import cardBack from "./images/CardBack.jpeg";
+import CardGrid from "./CardGrid";
 
 export default function stackedDeck() {
+  const [clickedImages, setClickedImages] = useState([]);
+  const [checkCards, setCheckCards] = useState(false)
+
+  const clickedCard = (index) => {
+
+    if (!clickedImages.includes(index)) {
+      setClickedImages((prevClickedImages) => [...prevClickedImages, index]);
+    }
+  
+  };
+  console.log(checkCards)
+  const handleCheckCards = () => {
+  
+    const numCards = clickedImages.length;
+    console.log(numCards)
+    setCheckCards(true)
+    
+  };
+  const resetCards = () =>{
+    setClickedImages([])
+    setCheckCards(false)
+  }
+
   return (
     <>
       {/* container  start */}
@@ -17,115 +40,41 @@ export default function stackedDeck() {
               Pick Your Cards
             </h1>
           </div>
-
           {/* Images */}
-          <div className="flex flex-row justify-between bg-white rounded-2xl">
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
-            <img
-              src={thefool}
-              className="h-80 rounded-2xl inline-block -ml-52"
-              alt="TheFool"
-            />
+          <div className="flex  justify-between ">
+            {Array.from({ length: 20 }, (_, i) => (
+              <div
+                key={i}
+                className={`filter h-80 rounded-2xl flex bg-black cursor-pointer  hover:mt-10 ${i !== 0 ? "-ml-52 " : ""} ${clickedImages.includes(i)?"mt-10":""} ${clickedImages.includes(i)?"grayscale":""}`}
+              >
+                <img
+                  src={cardBack}
+                  className=" h-80 rounded-2xl hover:grayscale hover:opacity-200 position-relative"
+                  alt={i}
+                  onClick={() => clickedCard(i)}
+                />
+              </div>
+            ))}
           </div>
           {/* end of Images */}
         </div>
-        {/* end of Container Padding */}
+        <div className="flex w-auto justify-center">
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={handleCheckCards}>
+            Check your cards
+          </button>
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={resetCards}>
+            Reset Cards
+          </button>
+        </div>
+        
       </div>
-      {/* end of Container */}
+      {checkCards && <CardGrid numCards={clickedImages.length}/>}
     </>
   );
 }
