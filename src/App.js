@@ -30,9 +30,9 @@ function App() {
     <div>
       <HashRouter>
         <Routes>
-          <Route index element={<LoginForm handleLogin={handleLogin} />} />{" "}
+          <Route index element={<LoginForm handleLogin={handleLogin} />} />
           {/* 👈 Renders at /app/ */}
-          <Route path="/homepage" element={<HomePage />} />{" "}
+          <Route path="/homepage" element={<HomePage />} />
           {/* 👈 Renders at /app/ */}
           <Route path="/gallery" element={<Gallery />} />
           {/* Protected route: only renders if the user is logged in */}
