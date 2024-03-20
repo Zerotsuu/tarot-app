@@ -1,46 +1,93 @@
-import logo from "./logo.svg";
-import "./output.css";
+import React, { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase/config.js";
+import PropTypes from "prop-types";
+import "../output.css";
+// import { Link } from "react-router-dom";
+// import Homepage from "../pages/Homepage.js";
 
-import thefool from "./images/MajorArcana/0_The_Fool.jpg"
+// import thefool from "./images/MajorArcana/0_The_Fool.jpg"
 
-function App() {
+function Login({ handleLogin }) {
+  const useHistory = useNavigate();
+
+  const [loginType, setLoginType] = useState("login");
+  const [userCredential, setUserCredential] = useState({});
+  const [error, setError] = useState();
+
+  console.log("auth", auth);
+
+  function handleCredentials(e) {
+    setUserCredential({ ...userCredential, [e.target.name]: e.target.value });
+    console.log(userCredential);
+  }
+
+  function handleSignup(e) {
+    e.preventDefault();
+    createUserWithEmailAndPassword(
+      auth,
+      userCredential.email,
+      userCredential.password
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  }
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      signInWithEmailAndPassword(
+        auth,
+        userCredential.email,
+        userCredential.password
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          handleLogin()
+          useHistory("/homepage");
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setError(error.message);
+          console.log(errorCode, errorMessage);
+        });
+    }
+
   return (
     <>
-      {/* Background */}
-      <div className="bg-gray-50 dark:bg-gray-900">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-          
-          {/* Header Title */}
-          <p href="#" className="flex items-center mb-6 text-6xl font-semibold text-gray-900 dark:text-white mt-10">
-            Tarot Card Reading
-          </p>
-
-          {/* container */}
+      {/* <section className="bg-gray-50 dark:bg-gray-900">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            
-            {/* container padding*/}
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              {/* Header Div */}
-              <div className="w-auto justify-center text-center"> 
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Your Card
-                </h1>
-              </div>
-
-              <div className="w-full justify-center bg-white"> 
-                <img src={thefool} alt="TheFool"/>
-              </div>
-              
-              <form className="space-y-4 md:space-y-6" action="#">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Sign in to your account
+              </h1>
+              <form className="space-y-4 md:space-y-6">
                 <div>
                   <label
-                    for="email"
+                    htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your email
                   </label>
                   <input
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -50,13 +97,15 @@ function App() {
                 </div>
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
                   <input
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     name="password"
                     id="password"
                     placeholder="••••••••"
@@ -64,55 +113,128 @@ function App() {
                     required=""
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        aria-describedby="remember"
-                        type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                        required=""
-                      />
-                    </div>
-                    <div className="ml-3 text-sm">
-                      <label
-                        for="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+                
+                {loginType == "login" ? (
+              <button
+              type="submit"
+              className="w-full text-white bg-slate-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              onClick={()=>setLoginType('login')}
+            >
+              Sign in
+            </button>
+            ) : (
                 <button
-                  type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  Sign in
-                </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <a
-                    href="#"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Sign up
-                  </a>
-                </p>
+                type="submit"
+                className="w-full text-white bg-slate-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={()=>setLoginType('signup')}
+              >
+                Sign Up
+              </button>
+            )}
               </form>
             </div>
           </div>
         </div>
+      </section> */}
+
+      <div className="container login-page">
+        <section>
+          <h1>Welcome to the Book App</h1>
+          <p>Login or create an account to continue</p>
+          <div className="login-type">
+            <button
+              className={`btn ${loginType == "login" ? "selected" : ""}`}
+              onClick={() => setLoginType("login")}
+            >
+              Login
+            </button>
+            <button
+              className={`btn ${loginType == "signup" ? "selected" : ""}`}
+              onClick={() => setLoginType("signup")}
+            >
+              Signup
+            </button>
+          </div>
+          <form className="add-form login">
+            <div className="form-control">
+              <label>Email *</label>
+              <input
+                type="text"
+                name="email"
+                placeholder="Enter your email"
+                onChange={(e) => {
+                  handleCredentials(e);
+                }}
+              />
+            </div>
+            <div className="form-control">
+              <label>Password *</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                onChange={(e) => {
+                  handleCredentials(e);
+                }}
+              />
+            </div>
+            {loginType == "login" ? (
+              <button
+                onClick={(e) => {
+                  handleSubmit(e);
+                }}
+                className="active btn btn-block"
+              >
+                Login
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  handleSignup(e);
+                }}
+                className="active btn btn-block"
+              >
+                Sign Up
+              </button>
+            )}
+            {error && <div className="text-xl">{error}</div>}
+            <p className="forgot-password">Forgot Password?</p>
+          </form>
+        </section>
       </div>
     </>
+    //     <>
+    //      <section className="bg-gray-50 dark:bg-gray-900">
+    //   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    //       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    //           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+    //               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+    //                   Sign in to your account
+    //               </h1>
+    //               <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+    //                   <div>
+    //                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+    //                       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+    //                   </div>
+    //                   <div>
+    //                       <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+    //                       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+    //                   </div>
+    //                   <button type="submit" className="w-full text-white bg-slate-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+    //                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+    //                       Don’t have an account yet? <Link href="/gallery" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
+    //                   </p>
+    //               </form>
+    //           </div>
+    //       </div>
+    //   </div>
+    // </section>
+    //     </>
   );
 }
 
-export default App;
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+};
+
+export default Login;
