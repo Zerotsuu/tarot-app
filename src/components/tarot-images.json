@@ -712,7 +712,7 @@
       "number": "17",
       "arcana": "Major Arcana",
       "suit": "Trump",
-      "img": "The_Moon.jpg",
+      "img": "The_Star.jpg",
 	  "fortune_telling": [
                 "Get an astrology chart drawn up", 
                 "Someone is a little too starstruck", 
@@ -756,7 +756,7 @@
       "number": "18",
       "arcana": "Major Arcana",
       "suit": "Trump",
-      "img": "The_Star.jpg",
+      "img": "The_Moon.jpg",
 	  "fortune_telling": [
                 "Watch for problems at the end of the month", 
                 "Someone you know needs to howl at the moon more often", 
